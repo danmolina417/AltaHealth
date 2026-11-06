@@ -2,15 +2,17 @@ import { CaretLeft, CaretRight, List, X } from '@phosphor-icons/react';
 import { useEffect, useRef, useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { useAuth } from '../../features/auth/useAuth';
+import icon from '../../assets/alta-icon.png';
 import { paths } from '../../routes/paths';
 import { Button } from '../Button';
+import { UserAvatar } from '../UserAvatar';
 import { MainNav } from './MainNav';
 
 const iconButton =
   'inline-flex size-11 items-center justify-center rounded-xl text-ink hover:bg-canvas focus-visible:outline-2 focus-visible:outline-brand-600';
 
 export const AppLayout = () => {
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const openButton = useRef<HTMLButtonElement>(null);
@@ -46,13 +48,20 @@ export const AppLayout = () => {
             >
               <List size={24} aria-hidden="true" />
             </button>
-            <Link to={paths.home} className="text-lg font-bold text-brand-700">
+            <Link
+              to={paths.home}
+              className="flex items-center gap-2 text-lg font-bold text-brand-700"
+            >
+              <img src={icon} alt="" className="size-8 rounded-lg" />
               Alta Health
             </Link>
           </div>
-          <Button variant="secondary" onClick={logout}>
-            Log out
-          </Button>
+          <div className="flex items-center gap-3">
+            <Button variant="secondary" onClick={logout}>
+              Log out
+            </Button>
+            {user && <UserAvatar label={`Signed in as ${user.name ?? user.email}`} />}
+          </div>
         </div>
       </header>
 

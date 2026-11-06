@@ -35,6 +35,7 @@ describe('main navigation', () => {
       'Dental',
       'Medical',
       'Lifestyle & Nutrition',
+      'Appointments',
     ]);
     expect(within(nav).getByRole('link', { name: 'Home' })).toHaveAttribute('aria-current', 'page');
     expect(within(nav).getByText('Labs & Biomarkers').parentElement).toHaveAttribute(
@@ -78,6 +79,12 @@ describe('main navigation', () => {
 
     await userEvent.click(expand);
     expect(within(nav).getByText('Dental')).not.toHaveClass('sr-only');
+  });
+
+  it('shows the signed-in user avatar in the header', async () => {
+    await loginToLanding();
+
+    expect(screen.getByRole('img', { name: 'Signed in as jane@example.com' })).toBeInTheDocument();
   });
 
   it('opens and closes the menu on small screens', async () => {

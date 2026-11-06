@@ -36,7 +36,7 @@ export const primaryNav: NavItem[] = [
 ];
 
 export const secondaryNav: NavItem[] = [
-  { id: 'appointments', label: 'Appointments', icon: CalendarCheck },
+  { id: 'appointments', label: 'Appointments', icon: CalendarCheck, to: paths.appointments },
   { id: 'messages', label: 'Messages', icon: ChatCircleText },
   { id: 'settings', label: 'Settings', icon: Gear },
 ];

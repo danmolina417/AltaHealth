@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { AppLayout } from '../components/layout/AppLayout';
+import { AppointmentsPage } from '../features/appointments/AppointmentsPage';
 import { AreasLayout } from '../features/areas/AreasLayout';
 import { DentalPage } from '../features/areas/DentalPage';
 import { LifestylePage } from '../features/areas/LifestylePage';
@@ -20,6 +21,7 @@ export const AppRoutes = () => (
       <Route element={<AppLayout />}>
         <Route path={paths.home} element={<LandingPage />} />
         <Route path={paths.myHealth} element={<MyHealthPage />} />
+        <Route path={paths.appointments} element={<AppointmentsPage />} />
         <Route element={<AreasLayout />}>
           <Route path={paths.skin} element={<SkinPage />} />
           <Route path={paths.dental} element={<DentalPage />} />
