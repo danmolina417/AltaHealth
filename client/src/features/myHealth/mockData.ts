@@ -1,7 +1,10 @@
 import type { ScoreCardData } from '../../components/ScoreCard';
 import { paths } from '../../routes/paths';
 import { dentalDetail } from '../areas/dentalMockData';
+import { lifestyleDetail } from '../areas/lifestyleMockData';
 import { medicalDetail } from '../areas/medicalMockData';
+import { nutritionDetail } from '../areas/nutritionMockData';
+import { preventiveDetail } from '../areas/preventiveMockData';
 import { skinDetail } from '../areas/skinMockData';
 import type { HealthMetric } from '../areas/types';
 import { mockSnapshot } from '../landing/mockData';
@@ -60,12 +63,43 @@ export const myHealthSnapshot: MyHealthSnapshot = {
       paths.medical,
       pickMetrics(medicalDetail.metrics, ['systolic-bp', 'hba1c', 'hs-crp']),
     ),
+    pillar(
+      'lifestyle',
+      paths.lifestyle,
+      pickMetrics(lifestyleDetail.metrics, ['daily-steps', 'sleep-duration', 'resting-heart-rate']),
+    ),
+    pillar(
+      'nutrition',
+      paths.nutrition,
+      pickMetrics(nutritionDetail.metrics, [
+        'daily-calorie-intake',
+        'protein-intake',
+        'fruit-vegetables',
+      ]),
+    ),
+    pillar(
+      'preventive',
+      paths.preventive,
+      pickMetrics(preventiveDetail.metrics, [
+        'biological-age',
+        'grip-strength',
+        'waist-to-height-ratio',
+      ]),
+    ),
   ],
   months: ['May 2026', 'Jun 2026', 'Jul 2026', 'Aug 2026', 'Sep 2026', 'Oct 2026'],
   series: [
     { id: 'skin', label: 'Skin Health', accent: 'bronze', values: [76, 79, 82, 85, 86, 88] },
     { id: 'dental', label: 'Dental Health', accent: 'rose', values: [68, 74, 77, 79, 81, 82] },
     { id: 'medical', label: 'Medical Health', accent: 'forest', values: [62, 67, 70, 72, 74, 76] },
+    { id: 'lifestyle', label: 'Lifestyle', accent: 'sage', values: [72, 73, 75, 76, 77, 78] },
+    { id: 'nutrition', label: 'Nutrition', accent: 'tan', values: [64, 67, 69, 71, 73, 74] },
+    {
+      id: 'preventive',
+      label: 'Preventive & Longevity',
+      accent: 'sky',
+      values: [70, 73, 75, 77, 79, 80],
+    },
     { id: 'overall', label: 'Overall Wellness', accent: 'slate', values: [66, 70, 74, 77, 80, 82] },
   ],
 };
