@@ -51,6 +51,10 @@ describe('main navigation', () => {
       'aria-disabled',
       'true',
     );
+    expect(within(nav).getByText('Prescriptions').parentElement).toHaveAttribute(
+      'aria-disabled',
+      'true',
+    );
     expect(within(nav).getByText('Settings').parentElement).toHaveAttribute(
       'aria-disabled',
       'true',
