@@ -6,6 +6,7 @@ import {
   Gear,
   Heart,
   Leaf,
+  Pill,
   ShieldCheck,
   Sparkle,
   Stethoscope,
@@ -37,6 +38,7 @@ export const primaryNav: NavItem[] = [
   { id: 'preventive', label: 'Preventive & Longevity', icon: ShieldCheck, to: paths.preventive },
   { id: 'labs', label: 'Labs & Biomarkers', icon: Flask },
   { id: 'wearables', label: 'Wearables', icon: Watch },
+  { id: 'prescriptions', label: 'Prescriptions', icon: Pill },
 ];
 
 export const secondaryNav: NavItem[] = [

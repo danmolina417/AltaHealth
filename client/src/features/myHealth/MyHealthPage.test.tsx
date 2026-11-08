@@ -33,20 +33,23 @@ describe('my health page', () => {
     expect(screen.getByText('Strong')).toBeInTheDocument();
   });
 
-  it('summarises the three pillars with key metrics and links to their pages', async () => {
+  it('summarises the six pillars with key metrics and links to their pages', async () => {
     await loginAndOpenMyHealth();
 
-    expect(screen.getByRole('heading', { name: 'Your 3 Pillars of Wellness' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Your 6 Pillars of Wellness' })).toBeInTheDocument();
     expect(screen.getByRole('tab', { name: 'Overview' })).toHaveAttribute('aria-selected', 'true');
     expect(screen.getByRole('tab', { name: 'Details' })).toBeDisabled();
 
     const panel = within(screen.getByRole('tabpanel'));
     const pillars = panel.getAllByRole('article');
-    expect(pillars).toHaveLength(3);
+    expect(pillars).toHaveLength(6);
     expect(within(pillars[1]!).getByText('Key Metrics')).toBeInTheDocument();
     expect(within(pillars[1]!).getByText('Deepest probing depth')).toBeInTheDocument();
     expect(within(pillars[2]!).getByText('HbA1c')).toBeInTheDocument();
     expect(within(pillars[2]!).getByText('6.1%')).toBeInTheDocument();
+    expect(within(pillars[3]!).getByText('Daily steps')).toBeInTheDocument();
+    expect(within(pillars[4]!).getByText('Protein intake')).toBeInTheDocument();
+    expect(within(pillars[5]!).getByText('Biological age')).toBeInTheDocument();
 
     await userEvent.click(panel.getByRole('link', { name: 'Dental Health' }));
     expect(await screen.findByRole('heading', { level: 1, name: 'Dental Health' })).toBeVisible();
@@ -57,7 +60,7 @@ describe('my health page', () => {
 
     expect(
       screen.getByRole('img', {
-        name: 'Your Progress Over Time: Skin Health, Dental Health, Medical Health, Overall Wellness',
+        name: 'Your Progress Over Time: Skin Health, Dental Health, Medical Health, Lifestyle, Nutrition, Preventive & Longevity, Overall Wellness',
       }),
     ).toBeInTheDocument();
     expect(screen.getByText('May 2026')).toBeInTheDocument();
