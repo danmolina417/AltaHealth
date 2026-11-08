@@ -31,14 +31,17 @@ describe('skin detail page', () => {
     ).toBeInTheDocument();
   });
 
-  it('marks the current area and disables areas that are not built yet', async () => {
+  it('marks the current area in the areas menu', async () => {
     await loginAndOpenSkin();
 
     expect(await screen.findByRole('link', { name: 'Skin & aesthetics' })).toHaveAttribute(
       'aria-current',
       'page',
     );
-    expect(screen.getByText('Preventive wellness')).toHaveAttribute('aria-disabled', 'true');
+    expect(screen.getByRole('link', { name: 'Preventive & longevity' })).toHaveAttribute(
+      'href',
+      '/areas/preventive',
+    );
   });
 
   it('returns to the landing page from the header', async () => {

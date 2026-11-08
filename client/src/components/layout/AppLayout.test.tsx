@@ -29,15 +29,25 @@ describe('main navigation', () => {
         .getAllByRole('link')
         .map((link) => link.textContent),
     ).toEqual([
-      'Home',
+      'Wellness Insights',
       'My Health',
       'Skin & Aesthetics',
       'Dental',
       'Medical',
-      'Lifestyle & Nutrition',
+      'Lifestyle',
+      'Nutrition',
+      'Preventive & Longevity',
+      'Appointments',
     ]);
-    expect(within(nav).getByRole('link', { name: 'Home' })).toHaveAttribute('aria-current', 'page');
+    expect(within(nav).getByRole('link', { name: 'Wellness Insights' })).toHaveAttribute(
+      'aria-current',
+      'page',
+    );
     expect(within(nav).getByText('Labs & Biomarkers').parentElement).toHaveAttribute(
+      'aria-disabled',
+      'true',
+    );
+    expect(within(nav).getByText('Wearables').parentElement).toHaveAttribute(
       'aria-disabled',
       'true',
     );
@@ -58,7 +68,9 @@ describe('main navigation', () => {
       'aria-current',
       'page',
     );
-    expect(within(nav).getByRole('link', { name: 'Home' })).not.toHaveAttribute('aria-current');
+    expect(within(nav).getByRole('link', { name: 'Wellness Insights' })).not.toHaveAttribute(
+      'aria-current',
+    );
   });
 
   it('collapses to icons only and expands again', async () => {
@@ -78,6 +90,12 @@ describe('main navigation', () => {
 
     await userEvent.click(expand);
     expect(within(nav).getByText('Dental')).not.toHaveClass('sr-only');
+  });
+
+  it('shows the signed-in user avatar in the header', async () => {
+    await loginToLanding();
+
+    expect(screen.getByRole('img', { name: 'Signed in as jane@example.com' })).toBeInTheDocument();
   });
 
   it('opens and closes the menu on small screens', async () => {

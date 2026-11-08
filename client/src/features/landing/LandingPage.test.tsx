@@ -28,18 +28,20 @@ describe('LandingPage', () => {
     ).toBeInTheDocument();
   });
 
-  it('shows the four score cards with gauges', () => {
+  it('shows the six score cards with gauges', () => {
     renderLanding('Edgard');
 
-    const cards = screen.getAllByRole('article').slice(0, 4);
-    expect(cards).toHaveLength(4);
+    const cards = screen.getAllByRole('article').slice(0, 6);
+    expect(cards).toHaveLength(6);
     expect(within(cards[0]!).getByText('Skin Health')).toBeInTheDocument();
     expect(within(cards[0]!).getByText('+ 4')).toBeInTheDocument();
     expect(within(cards[0]!).getByText('Great progress')).toBeInTheDocument();
     expect(within(cards[1]!).getByText('On track')).toBeInTheDocument();
     expect(screen.getByRole('img', { name: 'Medical Health 76 out of 100' })).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: 'Lifestyle 78 out of 100' })).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: 'Nutrition 74 out of 100' })).toBeInTheDocument();
     expect(
-      screen.getByRole('img', { name: 'Lifestyle & Nutrition 78 out of 100' }),
+      screen.getByRole('img', { name: 'Preventive & Longevity 80 out of 100' }),
     ).toBeInTheDocument();
   });
 

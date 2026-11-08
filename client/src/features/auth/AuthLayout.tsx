@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import logo from '../../assets/alta-logo.png';
 
 interface AuthLayoutProps {
   title: string;
@@ -10,7 +11,11 @@ interface AuthLayoutProps {
 export const AuthLayout = ({ title, subtitle, children, footer }: AuthLayoutProps) => (
   <div className="flex min-h-dvh items-center justify-center px-4 py-8">
     <div className="w-full max-w-sm">
-      <p className="mb-6 text-center text-xl font-bold text-brand-700">Alta Health</p>
+      <img
+        src={logo}
+        alt="Alta Health & Wellness"
+        className="mx-auto mb-6 w-full max-w-72 mix-blend-multiply"
+      />
       <div className="rounded-card border border-line bg-surface p-6 shadow-sm">
         <h1 className="text-2xl font-bold">{title}</h1>
         <p className="mt-1 text-sm text-ink-muted">{subtitle}</p>
