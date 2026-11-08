@@ -5,6 +5,8 @@ import { AreasLayout } from '../features/areas/AreasLayout';
 import { DentalPage } from '../features/areas/DentalPage';
 import { LifestylePage } from '../features/areas/LifestylePage';
 import { MedicalPage } from '../features/areas/MedicalPage';
+import { NutritionPage } from '../features/areas/NutritionPage';
+import { PreventivePage } from '../features/areas/PreventivePage';
 import { MyHealthPage } from '../features/myHealth/MyHealthPage';
 import { SkinPage } from '../features/areas/SkinPage';
 import { LoginPage } from '../features/auth/LoginPage';
@@ -27,6 +29,8 @@ export const AppRoutes = () => (
           <Route path={paths.dental} element={<DentalPage />} />
           <Route path={paths.medical} element={<MedicalPage />} />
           <Route path={paths.lifestyle} element={<LifestylePage />} />
+          <Route path={paths.nutrition} element={<NutritionPage />} />
+          <Route path={paths.preventive} element={<PreventivePage />} />
         </Route>
       </Route>
     </Route>

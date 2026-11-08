@@ -24,6 +24,8 @@ export interface HealthMetric {
   /** Display value including its unit when it has one, e.g. "6.1%". */
   value: string;
   unit?: string;
+  /** Where the data comes from, e.g. "Wearable" or "Laboratory". */
+  source?: string;
   /** General reference range or goal. */
   reference?: string;
   trend?: MetricTrend;

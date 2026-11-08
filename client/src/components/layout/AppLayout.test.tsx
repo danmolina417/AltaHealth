@@ -29,16 +29,25 @@ describe('main navigation', () => {
         .getAllByRole('link')
         .map((link) => link.textContent),
     ).toEqual([
-      'Home',
+      'Wellness Insights',
       'My Health',
       'Skin & Aesthetics',
       'Dental',
       'Medical',
-      'Lifestyle & Nutrition',
+      'Lifestyle',
+      'Nutrition',
+      'Preventive & Longevity',
       'Appointments',
     ]);
-    expect(within(nav).getByRole('link', { name: 'Home' })).toHaveAttribute('aria-current', 'page');
+    expect(within(nav).getByRole('link', { name: 'Wellness Insights' })).toHaveAttribute(
+      'aria-current',
+      'page',
+    );
     expect(within(nav).getByText('Labs & Biomarkers').parentElement).toHaveAttribute(
+      'aria-disabled',
+      'true',
+    );
+    expect(within(nav).getByText('Wearables').parentElement).toHaveAttribute(
       'aria-disabled',
       'true',
     );
@@ -59,7 +68,9 @@ describe('main navigation', () => {
       'aria-current',
       'page',
     );
-    expect(within(nav).getByRole('link', { name: 'Home' })).not.toHaveAttribute('aria-current');
+    expect(within(nav).getByRole('link', { name: 'Wellness Insights' })).not.toHaveAttribute(
+      'aria-current',
+    );
   });
 
   it('collapses to icons only and expands again', async () => {

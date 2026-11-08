@@ -1,11 +1,12 @@
+import { buildMetrics } from './buildMetrics';
 import type { HealthAreaDetail } from './types';
 
 /**
  * Placeholder data. Chart ranges and history are assumptions, since only the
- * inputs and units were specified. Replace with an API call when the backend exists.
+ * metrics, units and sources were specified. Replace with an API call when the backend exists.
  */
 export const lifestyleDetail: HealthAreaDetail = {
-  title: 'Lifestyle & Nutrition',
+  title: 'Lifestyle',
   tagline: 'Small habits. Lasting change.',
   scoreTitle: 'Lifestyle Score',
   score: {
@@ -16,44 +17,28 @@ export const lifestyleDetail: HealthAreaDetail = {
   },
   metricsTitle: 'Key Lifestyle Metrics',
   tableDetail: 'unit',
-  metrics: [
-    { id: 'nicotine', label: 'Nicotine status', value: 'Quit', unit: 'None / Quit / Current' },
-    {
-      id: 'sugary',
-      label: 'Sugary snacks/drinks',
-      value: '2',
-      unit: 'per day',
-      trend: { min: 0, max: 10, values: [5, 4, 4, 3, 2], accent: 'bronze' },
-    },
-    {
-      id: 'produce',
-      label: 'Fruit & vegetables',
-      value: '3',
-      unit: 'servings/day',
-      trend: { min: 0, max: 10, values: [1, 2, 2, 3, 3], accent: 'forest' },
-    },
-    {
-      id: 'alcohol',
-      label: 'Alcohol',
-      value: '6',
-      unit: 'drinks/week',
-      trend: { min: 0, max: 30, values: [14, 12, 9, 8, 6], accent: 'rose' },
-    },
-    {
-      id: 'acidic',
-      label: 'Acidic drinks',
-      value: '2',
-      unit: 'per day',
-      trend: { min: 0, max: 10, values: [4, 3, 3, 2, 2], accent: 'sage' },
-    },
-    {
-      id: 'water',
-      label: 'Water',
-      value: '1.7',
-      unit: 'liters/day',
-      trend: { min: 0, max: 5, values: [1, 1.2, 1.4, 1.5, 1.7], accent: 'sky' },
-    },
-  ],
+  metrics: buildMetrics([
+    ['Daily steps', '7,400', 'steps/day', 'Wearable', [0, 20000, 5200]],
+    ['Exercise frequency', '3', 'sessions/week', 'Patient / wearable', [0, 14, 1]],
+    ['Active calories burned', '420', 'kcal/day', 'Wearable estimate', [0, 1500, 310]],
+    ['Sedentary time', '8.5', 'hours/day', 'Wearable', [0, 16, 10.5]],
+    ['Sleep duration', '7.1', 'hours/night', 'Wearable', [0, 12, 6.2]],
+    ['Sleep efficiency', '89', '%', 'Wearable', [0, 100, 82]],
+    ['Deep sleep', '78', 'minutes/night', 'Wearable estimate', [0, 180, 58]],
+    ['REM sleep', '96', 'minutes/night', 'Wearable estimate', [0, 180, 80]],
+    ['Sleep consistency', '35', 'bedtime variation, minutes', 'Wearable', [0, 120, 70]],
+    ['Resting heart rate', '62', 'BPM', 'Wearable', [40, 120, 70]],
+    ['Heart rate variability', '48', 'ms', 'Wearable', [0, 150, 36]],
+    ['Stress level', '4', '1–10 scale', 'Patient', [1, 10, 7]],
+    ['Energy level', '7', '1–10 scale', 'Patient', [1, 10, 5]],
+    ['Mood', '7', '1–10 scale', 'Patient', [1, 10, 5]],
+    ['Social connection', '6', '1–10 scale', 'Patient', [1, 10, 4]],
+    ['Alcohol consumption', '6', 'drinks/week', 'Patient', [0, 30, 14]],
+    ['Tobacco / nicotine use', 'Quit', 'Frequency', 'Patient'],
+    ['Screen time', '5.5', 'hours/day', 'Device / patient', [0, 16, 7.5]],
+    ['Outdoor activity', '40', 'minutes/day', 'Patient', [0, 180, 15]],
+    ['Perceived recovery', '7', '1–10 scale', 'Patient', [1, 10, 5]],
+  ]),
   trendTitle: 'Metric Progress Over Time',
   trendLabels: ['1', '2', '3', '4', '5'],
   notes: [

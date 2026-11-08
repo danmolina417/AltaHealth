@@ -13,7 +13,7 @@ export const AuthLayout = ({ title, subtitle, children, footer }: AuthLayoutProp
     <div className="w-full max-w-sm">
       <img
         src={logo}
-        alt="Alta Holistic Health & Wellness"
+        alt="Alta Health & Wellness"
         className="mx-auto mb-6 w-full max-w-72 mix-blend-multiply"
       />
       <div className="rounded-card border border-line bg-surface p-6 shadow-sm">

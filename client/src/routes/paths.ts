@@ -8,4 +8,6 @@ export const paths = {
   dental: '/areas/dental',
   medical: '/areas/medical',
   lifestyle: '/areas/lifestyle',
+  nutrition: '/areas/nutrition',
+  preventive: '/areas/preventive',
 } as const;
