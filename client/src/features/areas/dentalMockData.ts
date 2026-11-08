@@ -35,20 +35,6 @@ export const dentalDetail: HealthAreaDetail = {
       unit: 'Low / Moderate / High / Extreme',
     },
     {
-      id: 'saliva-flow',
-      label: 'Stimulated saliva flow',
-      value: '1.2',
-      unit: 'mL/min',
-      trend: { min: 0, max: 10, values: [0.6, 0.8, 0.9, 1.1, 1.2], accent: 'sage' },
-    },
-    {
-      id: 'saliva-ph',
-      label: 'Resting saliva pH',
-      value: '7',
-      unit: 'pH',
-      trend: { min: 5, max: 8, values: [6.4, 6.6, 6.8, 6.9, 7], accent: 'sky' },
-    },
-    {
       id: 'plaque',
       label: "Plaque index (O'Leary)",
       value: '10',
