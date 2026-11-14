@@ -1,38 +1,27 @@
 import js from '@eslint/js';
+import nextPlugin from '@next/eslint-plugin-next';
+import prettier from 'eslint-config-prettier';
+import reactHooks from 'eslint-plugin-react-hooks';
+import { defineConfig, globalIgnores } from 'eslint/config';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
-import reactHooks from 'eslint-plugin-react-hooks';
-import reactRefresh from 'eslint-plugin-react-refresh';
-import prettier from 'eslint-config-prettier';
 
-export default tseslint.config(
-  { ignores: ['**/dist', '**/coverage', '**/node_modules'] },
+// eslint-config-next is not used because its bundled plugins (react, import, jsx-a11y)
+// do not support ESLint 10 yet; the Next.js plugin itself is wired in directly.
+export default defineConfig(
+  globalIgnores(['.next/', 'out/', 'coverage/', 'next-env.d.ts']),
   js.configs.recommended,
-  ...tseslint.configs.recommended,
+  tseslint.configs.recommended,
+  reactHooks.configs.flat.recommended,
+  nextPlugin.configs['core-web-vitals'],
   {
+    languageOptions: { globals: { ...globals.browser, ...globals.node } },
     rules: {
-      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_', ignoreRestSiblings: true },
+      ],
     },
-  },
-  {
-    files: ['server/**/*.ts'],
-    languageOptions: { globals: globals.node },
-  },
-  {
-    files: ['client/**/*.{ts,tsx}'],
-    languageOptions: { globals: globals.browser },
-    plugins: {
-      'react-hooks': reactHooks,
-      'react-refresh': reactRefresh,
-    },
-    rules: {
-      ...reactHooks.configs.recommended.rules,
-      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
-    },
-  },
-  {
-    files: ['*.config.{js,ts}', '**/*.config.{js,ts}'],
-    languageOptions: { globals: globals.node },
   },
   prettier,
 );
