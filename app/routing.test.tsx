@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { renderApp } from '@/test/renderApp';
 
 describe('app routing and mock auth', () => {
-  it('redirects unauthenticated users from the landing page to login', () => {
+  it('redirects unauthenticated users from the home page to login', () => {
     renderApp('/');
 
     expect(screen.getByRole('heading', { name: 'Welcome back' })).toBeInTheDocument();
@@ -26,7 +26,7 @@ describe('app routing and mock auth', () => {
     expect(screen.getByRole('heading', { name: 'Welcome back' })).toBeInTheDocument();
   });
 
-  it('logs in, lands on the landing page, and logs out', async () => {
+  it('logs in, lands on My Health, and logs out', async () => {
     renderApp('/login');
 
     await userEvent.type(screen.getByLabelText('Email'), 'jane@example.com');
@@ -34,7 +34,7 @@ describe('app routing and mock auth', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Log in' }));
 
     expect(
-      await screen.findByRole('heading', { name: /^Good (morning|afternoon|evening)$/ }),
+      await screen.findByRole('heading', { level: 1, name: 'Your Wellness Snapshot' }),
     ).toBeInTheDocument();
 
     await userEvent.click(screen.getByRole('button', { name: 'Log out' }));
@@ -42,7 +42,7 @@ describe('app routing and mock auth', () => {
     expect(await screen.findByRole('heading', { name: 'Welcome back' })).toBeInTheDocument();
   });
 
-  it('signs up with a name and greets the user on the landing page', async () => {
+  it('signs up with a name and shows it on the signed-in avatar', async () => {
     renderApp('/signup');
 
     await userEvent.type(screen.getByLabelText('Name'), 'Jane');
@@ -50,8 +50,6 @@ describe('app routing and mock auth', () => {
     await userEvent.type(screen.getByLabelText('Password'), 'password123');
     await userEvent.click(screen.getByRole('button', { name: 'Create account' }));
 
-    expect(
-      await screen.findByRole('heading', { name: /^Good (morning|afternoon|evening), Jane$/ }),
-    ).toBeInTheDocument();
+    expect(await screen.findByRole('img', { name: 'Signed in as Jane' })).toBeInTheDocument();
   });
 });

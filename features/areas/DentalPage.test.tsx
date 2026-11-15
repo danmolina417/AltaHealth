@@ -8,7 +8,9 @@ const loginAndOpenDental = async () => {
   await userEvent.type(screen.getByLabelText('Email'), 'jane@example.com');
   await userEvent.type(screen.getByLabelText('Password'), 'anything');
   await userEvent.click(screen.getByRole('button', { name: 'Log in' }));
-  await userEvent.click(await screen.findByRole('link', { name: 'Dental Health' }));
+  await userEvent.click(
+    within(await screen.findByRole('tabpanel')).getByRole('link', { name: 'Dental Health' }),
+  );
   await screen.findByRole('heading', { level: 1, name: 'Dental Health' });
 };
 

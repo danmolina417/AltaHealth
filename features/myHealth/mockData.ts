@@ -7,8 +7,8 @@ import { nutritionDetail } from '@/features/areas/nutritionMockData';
 import { preventiveDetail } from '@/features/areas/preventiveMockData';
 import { skinDetail } from '@/features/areas/skinMockData';
 import type { HealthMetric } from '@/features/areas/types';
-import { mockSnapshot } from '@/features/landing/mockData';
 import type { KeyMetric, MyHealthSnapshot, PillarSummary } from './types';
+import { mockSnapshot } from './wellnessMockData';
 
 const scoreFor = (id: string): ScoreCardData => {
   const card = mockSnapshot.scores.find((score) => score.id === id);
@@ -32,7 +32,7 @@ const skinCard = scoreFor('skin');
 const dentalCard = scoreFor('dental');
 const medicalCard = scoreFor('medical');
 
-/** Placeholder data. The pillar numbers come from the same mock data as the landing and detail pages. */
+/** Placeholder data. The pillar numbers come from the same mock data as the detail pages. */
 export const myHealthSnapshot: MyHealthSnapshot = {
   scoreCards: [
     skinCard,
