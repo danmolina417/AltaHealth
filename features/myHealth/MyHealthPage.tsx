@@ -61,7 +61,7 @@ export const MyHealthPage = () => {
         ))}
       </div>
 
-      <article className="flex flex-col gap-4 rounded-card border border-line bg-surface p-5 shadow-card sm:p-6">
+      <article className="card flex flex-col gap-4 p-5 sm:p-6">
         <h2 className="font-serif text-xl sm:text-2xl">Your 6 Pillars of Wellness</h2>
         <SectionTabs
           label="Pillar views"

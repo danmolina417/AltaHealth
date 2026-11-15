@@ -19,7 +19,7 @@ export const NextStepItem = ({ step, requested, onRequest }: NextStepCardProps) 
   const { label, icon: CategoryIcon } = categories[category];
 
   return (
-    <article className="flex gap-4 rounded-card border border-line bg-surface p-4 shadow-card sm:gap-5 sm:p-5">
+    <article className="card flex gap-4 p-4 sm:gap-5 sm:p-5">
       <span
         aria-hidden="true"
         className="flex size-12 shrink-0 items-center justify-center rounded-full bg-accent-bronze text-white sm:size-14"

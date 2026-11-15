@@ -12,7 +12,7 @@ export const MetricsTable = ({ title, metrics, detail }: MetricsTableProps) => {
   const showSource = metrics.some(({ source }) => source);
 
   return (
-    <article className="rounded-card border border-line bg-surface p-5 shadow-card sm:p-6">
+    <article className="card p-5 sm:p-6">
       <h2 className="font-serif text-xl sm:text-2xl">{title}</h2>
       <div className="mt-4 overflow-x-auto">
         <table className="w-full min-w-[24rem] text-left text-sm">

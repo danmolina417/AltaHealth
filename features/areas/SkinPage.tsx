@@ -23,7 +23,7 @@ export const SkinPage = () => {
       </h2>
       <div className="mt-3 grid gap-4 lg:grid-cols-[3fr_2fr]">
         <TrendChart title="Skin assessment trend" points={trend} accent="bronze" />
-        <article className="rounded-card bg-sand p-5 shadow-card sm:p-6">
+        <article className="card card-coral p-5 sm:p-6">
           <h3 className="text-xs font-semibold uppercase tracking-wide text-accent-bronze">
             Results in context
           </h3>
