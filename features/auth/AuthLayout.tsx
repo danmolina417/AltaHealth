@@ -15,11 +15,11 @@ export const AuthLayout = ({ title, subtitle, children, footer }: AuthLayoutProp
       <Image
         src={logo}
         alt="Alta Health & Wellness"
-        width={800}
-        height={282}
-        sizes="288px"
+        width={512}
+        height={246}
+        sizes="192px"
         preload
-        className="mx-auto mb-6 h-auto w-full max-w-72 mix-blend-multiply"
+        className="mx-auto mb-4 h-auto w-full max-w-48"
       />
       <div className="rounded-card border border-line bg-surface p-6 shadow-sm">
         <h1 className="text-2xl font-bold">{title}</h1>

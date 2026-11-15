@@ -1,6 +1,5 @@
 export const paths = {
   home: '/',
-  myHealth: '/my-health',
   appointments: '/appointments',
   login: '/login',
   signup: '/signup',

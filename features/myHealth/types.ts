@@ -1,6 +1,12 @@
 import type { ScoreCardData } from '@/components/ScoreCard';
 import type { Accent } from '@/lib/accents';
 
+export interface WellnessSnapshot {
+  /** The overall wellness score. */
+  overallScore: number;
+  scores: ScoreCardData[];
+}
+
 export interface KeyMetric {
   label: string;
   value: string;

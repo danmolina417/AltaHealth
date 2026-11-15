@@ -1,45 +1,45 @@
 @import 'tailwindcss';
 
 /*
- * Design tokens, taken from alta_design_v1_landing.png.
+ * Design tokens, taken from new_alta_eg_vgreen.png (olive sage, cream, blush, coral, plum).
  * Utilities such as `bg-brand-600` and `font-sans` are generated from them.
  */
 @theme {
   --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-serif: ui-serif, Georgia, Cambria, 'Times New Roman', serif;
 
-  /* Sage green (primary) */
-  --color-brand-50: #e6ebe5;
-  --color-brand-100: #d5ded6;
-  --color-brand-500: #7f9b88;
-  --color-brand-600: #6b8a74;
-  --color-brand-700: #566f5e;
-  --color-brand-900: #3a4a3f;
+  /* Olive sage green (primary) */
+  --color-brand-50: #eff1e6;
+  --color-brand-100: #dde2cc;
+  --color-brand-500: #8a9a80;
+  --color-brand-600: #74846c;
+  --color-brand-700: #5c6b55;
+  --color-brand-900: #3b4636;
 
   /* Pillar accents */
-  --color-accent-tan: #9a7b4f;
-  --color-accent-slate: #5b7186;
-  --color-accent-bronze: #7a6548;
-  --color-accent-forest: #3f5b47;
-  --color-accent-rose: #b5506a;
-  --color-accent-sky: #7fb5c5;
+  --color-accent-tan: #cf6e53;
+  --color-accent-slate: #8a5a72;
+  --color-accent-bronze: #b5654d;
+  --color-accent-forest: #4f6148;
+  --color-accent-rose: #8a3a5e;
+  --color-accent-sky: #e0a070;
 
   /* Dark navigation panel */
-  --color-charcoal: #37332e;
-  --color-charcoal-active: #544e46;
-  --color-gold: #c9b48a;
+  --color-charcoal: #3f4a3a;
+  --color-charcoal-active: #56644f;
+  --color-gold: #eabaa2;
 
-  --color-surface: #fefefc;
-  --color-canvas: #f7f6f3;
-  --color-sand: #efe7de;
-  --color-ink: #2b2b28;
-  --color-ink-muted: #6b6b66;
-  --color-line: #dcd8d0;
-  --color-danger: #dc2626;
+  --color-surface: #fffdf9;
+  --color-canvas: #fcf4ec;
+  --color-sand: #f7e6dc;
+  --color-ink: #3a2a31;
+  --color-ink-muted: #7a6a6f;
+  --color-line: #e8d9cc;
+  --color-danger: #c0392b;
 
   --radius-card: 1rem;
   --radius-panel: 2rem;
-  --shadow-card: 0 1px 2px rgb(43 43 40 / 0.08), 0 4px 12px rgb(43 43 40 / 0.08);
+  --shadow-card: 0 1px 2px rgb(58 42 49 / 0.08), 0 4px 12px rgb(58 42 49 / 0.08);
 }
 
 @layer base {

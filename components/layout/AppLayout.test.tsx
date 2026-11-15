@@ -2,18 +2,18 @@ import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { renderApp } from '@/test/renderApp';
 
-const loginToLanding = async () => {
+const loginToHome = async () => {
   renderApp('/login');
 
   await userEvent.type(screen.getByLabelText('Email'), 'jane@example.com');
   await userEvent.type(screen.getByLabelText('Password'), 'anything');
   await userEvent.click(screen.getByRole('button', { name: 'Log in' }));
-  await screen.findByRole('heading', { level: 1, name: /^Good (morning|afternoon|evening)/ });
+  await screen.findByRole('heading', { level: 1, name: 'Your Wellness Snapshot' });
 };
 
 describe('main navigation', () => {
   it('lists the destinations, with unbuilt ones disabled', async () => {
-    await loginToLanding();
+    await loginToHome();
 
     const nav = screen.getByRole('navigation', { name: 'Main' });
     expect(
@@ -21,7 +21,6 @@ describe('main navigation', () => {
         .getAllByRole('link')
         .map((link) => link.textContent),
     ).toEqual([
-      'Wellness Insights',
       'My Health',
       'Skin & Aesthetics',
       'Dental',
@@ -31,7 +30,7 @@ describe('main navigation', () => {
       'Preventive & Longevity',
       'Appointments',
     ]);
-    expect(within(nav).getByRole('link', { name: 'Wellness Insights' })).toHaveAttribute(
+    expect(within(nav).getByRole('link', { name: 'My Health' })).toHaveAttribute(
       'aria-current',
       'page',
     );
@@ -54,7 +53,7 @@ describe('main navigation', () => {
   });
 
   it('highlights the current page and navigates between pages', async () => {
-    await loginToLanding();
+    await loginToHome();
 
     const nav = screen.getByRole('navigation', { name: 'Main' });
     await userEvent.click(within(nav).getByRole('link', { name: 'Dental' }));
@@ -64,13 +63,13 @@ describe('main navigation', () => {
       'aria-current',
       'page',
     );
-    expect(within(nav).getByRole('link', { name: 'Wellness Insights' })).not.toHaveAttribute(
+    expect(within(nav).getByRole('link', { name: 'My Health' })).not.toHaveAttribute(
       'aria-current',
     );
   });
 
   it('collapses to icons only and expands again', async () => {
-    await loginToLanding();
+    await loginToHome();
 
     const nav = screen.getByRole('navigation', { name: 'Main' });
     const collapse = screen.getByRole('button', { name: 'Collapse navigation' });
@@ -89,13 +88,13 @@ describe('main navigation', () => {
   });
 
   it('shows the signed-in user avatar in the header', async () => {
-    await loginToLanding();
+    await loginToHome();
 
     expect(screen.getByRole('img', { name: 'Signed in as jane@example.com' })).toBeInTheDocument();
   });
 
   it('opens and closes the menu on small screens', async () => {
-    await loginToLanding();
+    await loginToHome();
 
     const toggle = screen.getByRole('button', { name: 'Open menu' });
     expect(toggle).toHaveAttribute('aria-expanded', 'false');
@@ -110,7 +109,7 @@ describe('main navigation', () => {
   });
 
   it('closes the menu after choosing a destination', async () => {
-    await loginToLanding();
+    await loginToHome();
 
     await userEvent.click(screen.getByRole('button', { name: 'Open menu' }));
     const [, drawerNav] = screen.getAllByRole('navigation', { name: 'Main' });

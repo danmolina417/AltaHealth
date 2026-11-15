@@ -8,7 +8,7 @@ const loginAndOpenAppointments = async () => {
   await userEvent.type(screen.getByLabelText('Email'), 'jane@example.com');
   await userEvent.type(screen.getByLabelText('Password'), 'anything');
   await userEvent.click(screen.getByRole('button', { name: 'Log in' }));
-  await screen.findByRole('heading', { level: 1, name: /^Good (morning|afternoon|evening)/ });
+  await screen.findByRole('heading', { level: 1, name: 'Your Wellness Snapshot' });
 
   const nav = screen.getByRole('navigation', { name: 'Main' });
   await userEvent.click(within(nav).getByRole('link', { name: 'Appointments' }));
