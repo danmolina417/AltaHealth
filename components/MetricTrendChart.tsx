@@ -36,7 +36,7 @@ export const MetricTrendChart = ({
   const summary = values.map((v, i) => `${xLabels[i]} ${v}`).join(', ');
 
   return (
-    <article className="rounded-card border border-line bg-surface p-5 shadow-card sm:p-6">
+    <article className={`${styles.card} p-5 sm:p-6`}>
       <h3 className="font-serif text-lg sm:text-xl">
         {title}
         {unit ? <span className="ml-2 font-sans text-sm text-ink-muted">({unit})</span> : null}

@@ -15,7 +15,7 @@ export const AreaScoreCard = ({
   title: string;
   score: HealthAreaDetail['score'];
 }) => (
-  <article className="flex items-center gap-5 rounded-card border border-line bg-surface p-5 shadow-card sm:gap-8 sm:p-6">
+  <article className="card card-sage flex items-center gap-5 p-5 sm:gap-8 sm:p-6">
     <ScoreRing
       score={score.value}
       label={`${title} ${score.value} out of 100`}
