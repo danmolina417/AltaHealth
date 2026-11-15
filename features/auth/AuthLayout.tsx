@@ -20,6 +20,8 @@ export const AuthLayout = ({ title, subtitle, children, footer }: AuthLayoutProp
       <Image
         src={hero}
         alt="A woman smiling with her face turned up to the warm sunrise"
+        width={618}
+        height={435}
         sizes="(min-width: 1024px) 45vw, 100vw"
         preload
         className="absolute inset-x-0 top-24 h-[274px] w-full object-cover object-[55%_100%] [mask-image:linear-gradient(to_bottom,transparent,black_30%)] lg:bottom-0 lg:top-auto lg:h-3/5 lg:object-[60%_100%]"
