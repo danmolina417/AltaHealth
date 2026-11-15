@@ -27,7 +27,7 @@ export const NotesPanel = ({ initialNotes, authorName = 'Me' }: NotesPanelProps)
   };
 
   return (
-    <article className="rounded-card border border-line bg-surface p-5 shadow-card sm:p-6">
+    <article className="card p-5 sm:p-6">
       <h2 className="font-serif text-xl sm:text-2xl">Notes</h2>
 
       <ul className="mt-4 flex flex-col gap-3">

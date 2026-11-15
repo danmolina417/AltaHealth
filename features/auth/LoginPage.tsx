@@ -12,7 +12,7 @@ export const LoginPage = () => (
     footer={
       <>
         New here?{' '}
-        <Link href={paths.signup} className="font-semibold text-brand-700 hover:underline">
+        <Link href={paths.signup} className="font-semibold text-alta-plum-deep hover:underline">
           Create an account
         </Link>
       </>

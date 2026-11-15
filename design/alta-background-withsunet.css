@@ -1,0 +1,80 @@
+/* Alta — Warm theme app background
+   Mostly warm cream, with a coral signature bloom, a butter-yellow sunrise glow,
+   and a whisper of plum for depth. Drop on <body> (or your app shell). */
+
+:root {
+  --alta-cream: #F7F2E9;
+  --alta-cream-deep: #F1E8DA;
+  --alta-coral: #E58B77;
+  --alta-sunshine: #E8C96A;
+  --alta-plum: #563B4B;
+  --alta-sage: #A5ADA0;
+}
+
+.alta-bg {
+  background-color: var(--alta-cream);
+  background-image:
+    /* 1. fine paper grain — keeps large cream areas from looking flat */
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .34  0 0 0 0 .23  0 0 0 0 .29  0 0 0 .05 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"),
+    /* 2. sunrise arc — echoes the arc over the ALTA wordmark */
+    radial-gradient(ellipse 70% 55% at 18% -8%, transparent 62%, rgba(232, 201, 106, 0.14) 63%, transparent 66%),
+    /* 3. butter-yellow sunrise glow, top-left */
+    radial-gradient(ellipse 55% 45% at 12% 0%, rgba(232, 201, 106, 0.42), rgba(232, 201, 106, 0) 70%),
+    /* 4. coral signature bloom, top-right */
+    radial-gradient(ellipse 50% 50% at 96% 6%, rgba(229, 139, 119, 0.38), rgba(229, 139, 119, 0) 68%),
+    /* 5. soft coral warmth drifting across the middle */
+    radial-gradient(ellipse 60% 40% at 70% 45%, rgba(229, 139, 119, 0.10), rgba(229, 139, 119, 0) 70%),
+    /* 6. plum depth, bottom-right — grounds the page */
+    radial-gradient(ellipse 45% 40% at 100% 100%, rgba(86, 59, 75, 0.14), rgba(86, 59, 75, 0) 70%),
+    /* 7. a hint of sage, bottom-left, for balance */
+    radial-gradient(ellipse 40% 35% at 0% 95%, rgba(165, 173, 160, 0.16), rgba(165, 173, 160, 0) 70%),
+    /* 8. base: cream, deepening slightly toward the bottom */
+    linear-gradient(180deg, var(--alta-cream) 0%, var(--alta-cream) 55%, var(--alta-cream-deep) 100%);
+  background-attachment: fixed;
+  background-repeat: repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+  min-height: 100vh;
+}
+
+/* Cards sit on a lighter, slightly translucent cream so the glow reads through */
+.alta-card {
+  background: rgba(255, 252, 247, 0.72);
+  border: 1px solid rgba(86, 59, 75, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 20px;
+  box-shadow: 0 1px 2px rgba(86, 59, 75, 0.04), 0 8px 24px rgba(86, 59, 75, 0.05);
+}
+
+/* ------------------------------------------------------------------
+   Sunset — sits in the upper-right corner, on top of the background
+   colors but behind all page content. Its left and bottom edges are
+   already faded to transparent, so it melts into the cream.
+   ------------------------------------------------------------------ */
+.alta-bg {
+  position: relative;
+  isolation: isolate;          /* lets z-index:-1 stay above the bg colors */
+  --alta-sunset-top: 64px;     /* height of your top bar; set 0 to go under it */
+  --alta-sunset-width: min(62vw, 1240px);
+}
+
+.alta-bg::before {
+  content: "";
+  position: absolute;
+  top: var(--alta-sunset-top);
+  right: 0;
+  width: var(--alta-sunset-width);
+  aspect-ratio: 12 / 5;        /* image is 2400 x 1000 */
+  background-image: url("alta-sunset.png");
+  background-image: image-set(url("alta-sunset.webp") type("image/webp"),
+                              url("alta-sunset.png") type("image/png"));
+  background-size: cover;
+  background-position: right top;
+  background-repeat: no-repeat;
+  z-index: -1;                 /* behind every piece of page content */
+  pointer-events: none;
+}
+
+/* Tablet / phone: let the sunset span wider so it still reads */
+@media (max-width: 900px) {
+  .alta-bg { --alta-sunset-width: 100vw; --alta-sunset-top: 56px; }
+}

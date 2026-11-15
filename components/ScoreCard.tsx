@@ -25,7 +25,7 @@ export const ScoreCard = ({
   to,
 }: Omit<ScoreCardData, 'id'>) => (
   <article
-    className={`relative flex flex-col items-center gap-3 rounded-card border border-line bg-canvas px-3 py-5 text-center shadow-card sm:px-4 sm:py-6 lg:gap-2 lg:py-4 ${
+    className={`relative flex flex-col items-center gap-3 ${accentStyles[accent].card} px-3 py-5 text-center sm:px-4 sm:py-6 lg:gap-2 lg:py-4 ${
       to
         ? 'transition-shadow focus-within:outline-2 focus-within:outline-brand-600 hover:shadow-md'
         : ''

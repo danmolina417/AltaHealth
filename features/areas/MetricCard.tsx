@@ -8,7 +8,7 @@ interface MetricCardProps {
 }
 
 export const MetricCard = ({ label, value, change, accent }: MetricCardProps) => (
-  <article className="rounded-card border border-line bg-canvas p-5 shadow-card">
+  <article className={`${accentStyles[accent].card} p-5`}>
     <h3 className="text-xs font-semibold uppercase tracking-wide text-ink-muted">{label}</h3>
     <div className="mt-3 flex items-baseline justify-between gap-4">
       <span className={`text-4xl font-semibold ${accentStyles[accent].text}`}>{value}</span>

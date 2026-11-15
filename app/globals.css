@@ -6,7 +6,6 @@
  */
 @theme {
   --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --font-serif: ui-serif, Georgia, Cambria, 'Times New Roman', serif;
 
   /* Olive sage green (primary) */
   --color-brand-50: #eff1e6;
@@ -30,16 +29,34 @@
   --color-gold: #eabaa2;
 
   --color-surface: #fffdf9;
-  --color-canvas: #fcf4ec;
-  --color-sand: #f7e6dc;
+  --color-canvas: #f7f2e9;
+  --color-sand: #f1e8da;
   --color-ink: #3a2a31;
   --color-ink-muted: #7a6a6f;
   --color-line: #e8d9cc;
   --color-danger: #c0392b;
 
-  --radius-card: 1rem;
+  /* Page background and card palettes (from design/alta-background.css) */
+  --color-alta-cream: #f7f2e9;
+  --color-alta-cream-deep: #f1e8da;
+  --color-alta-coral: #e58b77;
+  --color-alta-sunshine: #e8c96a;
+  --color-alta-plum: #563b4b;
+  --color-alta-sage: #a5ada0;
+  --color-alta-peach: #f5e6db;
+  --color-alta-sheet: #fbf7f1;
+  --color-alta-plum-deep: #4a2f3f;
+  --color-alta-plum-muted: #6e5764;
+
+  --radius-card: 1.25rem;
   --radius-panel: 2rem;
-  --shadow-card: 0 1px 2px rgb(58 42 49 / 0.08), 0 4px 12px rgb(58 42 49 / 0.08);
+  --shadow-card: 0 1px 2px rgb(86 59 75 / 0.04), 0 8px 24px rgb(86 59 75 / 0.05);
+}
+
+/* Fonts loaded with next/font in app/layout.tsx */
+@theme inline {
+  --font-serif: var(--next-font-serif), ui-serif, Georgia, Cambria, 'Times New Roman', serif;
+  --font-inter: var(--next-font-inter), ui-sans-serif, system-ui, -apple-system, sans-serif;
 }
 
 @layer base {
@@ -48,7 +65,121 @@
   }
 
   body {
-    @apply bg-canvas font-sans text-ink antialiased;
+    @apply font-sans text-ink antialiased;
     min-height: 100dvh;
+    background-color: var(--color-alta-cream);
+    background-image:
+      /* fine paper grain, keeps large cream areas from looking flat */
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .34  0 0 0 0 .23  0 0 0 0 .29  0 0 0 .05 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"),
+      /* sunrise arc, echoes the arc over the ALTA wordmark */
+        radial-gradient(
+          ellipse 70% 55% at 18% -8%,
+          transparent 62%,
+          rgb(232 201 106 / 0.14) 63%,
+          transparent 66%
+        ),
+      /* butter-yellow sunrise glow, top-left */
+        radial-gradient(
+          ellipse 55% 45% at 12% 0%,
+          rgb(232 201 106 / 0.42),
+          rgb(232 201 106 / 0) 70%
+        ),
+      /* coral signature bloom, top-right */
+        radial-gradient(
+          ellipse 50% 50% at 96% 6%,
+          rgb(229 139 119 / 0.38),
+          rgb(229 139 119 / 0) 68%
+        ),
+      /* soft coral warmth drifting across the middle */
+        radial-gradient(
+          ellipse 60% 40% at 70% 45%,
+          rgb(229 139 119 / 0.1),
+          rgb(229 139 119 / 0) 70%
+        ),
+      /* plum depth, bottom-right */
+        radial-gradient(ellipse 45% 40% at 100% 100%, rgb(86 59 75 / 0.14), rgb(86 59 75 / 0) 70%),
+      /* a hint of sage, bottom-left */
+        radial-gradient(
+          ellipse 40% 35% at 0% 95%,
+          rgb(165 173 160 / 0.16),
+          rgb(165 173 160 / 0) 70%
+        ),
+      /* base: cream, deepening slightly toward the bottom */
+        linear-gradient(
+          180deg,
+          var(--color-alta-cream) 0%,
+          var(--color-alta-cream) 55%,
+          var(--color-alta-cream-deep) 100%
+        );
+    background-attachment: fixed;
+    background-repeat:
+      repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+    position: relative;
+    isolation: isolate;
+    --alta-sunset-top: 3.5rem; /* app header height; the sunset starts just below it */
+    --alta-sunset-width: min(62vw, 1240px);
+  }
+
+  /*
+   * Sunset in the upper-right corner, above the page colors but behind all content.
+   * Its left and bottom edges are already faded to transparent (design/alta-background-withsunet.css).
+   */
+  body::before {
+    content: '';
+    position: absolute;
+    top: var(--alta-sunset-top);
+    right: 0;
+    width: var(--alta-sunset-width);
+    aspect-ratio: 12 / 5; /* image is 2400 x 1000 */
+    background: url('../assets/alta-sunset.webp') right top / cover no-repeat;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  @media (max-width: 900px) {
+    body {
+      --alta-sunset-width: 100vw;
+      --alta-sunset-top: 3.5rem;
+    }
+  }
+}
+
+/*
+ * Cards sit on a translucent cream so the page glow reads through.
+ * Add a tone (`card-coral`, `card-sunshine`, `card-sage`, `card-plum`) for a tinted palette.
+ */
+@layer components {
+  .card {
+    --card-bg: rgb(255 252 247 / 0.72);
+    --card-border: rgb(86 59 75 / 0.08);
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+
+  .card-coral {
+    --card-bg:
+      linear-gradient(rgb(229 139 119 / 0.16), rgb(229 139 119 / 0.16)), rgb(255 252 247 / 0.72);
+    --card-border: rgb(229 139 119 / 0.3);
+  }
+
+  .card-sunshine {
+    --card-bg:
+      linear-gradient(rgb(232 201 106 / 0.24), rgb(232 201 106 / 0.24)), rgb(255 252 247 / 0.72);
+    --card-border: rgb(232 201 106 / 0.42);
+  }
+
+  .card-sage {
+    --card-bg:
+      linear-gradient(rgb(165 173 160 / 0.26), rgb(165 173 160 / 0.26)), rgb(255 252 247 / 0.72);
+    --card-border: rgb(165 173 160 / 0.45);
+  }
+
+  .card-plum {
+    --card-bg: linear-gradient(rgb(86 59 75 / 0.09), rgb(86 59 75 / 0.09)), rgb(255 252 247 / 0.72);
+    --card-border: rgb(86 59 75 / 0.18);
   }
 }

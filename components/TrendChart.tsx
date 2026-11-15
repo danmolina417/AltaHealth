@@ -27,7 +27,7 @@ export const TrendChart = ({ title, points, accent = 'sage' }: TrendChartProps) 
   const summary = points.map((p) => `${p.label} ${p.score}`).join(', ');
 
   return (
-    <article className="rounded-card border border-line bg-surface p-4 shadow-card sm:p-6">
+    <article className={`${styles.card} p-4 sm:p-6`}>
       <h3 className="sr-only">{title}</h3>
       <div role="img" aria-label={`${title}: ${summary}`}>
         <div className="relative h-24">

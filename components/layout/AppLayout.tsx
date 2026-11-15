@@ -37,7 +37,7 @@ export const AppLayout = ({ children }: { children: ReactNode }) => {
 
   return (
     <div className="flex min-h-dvh flex-col">
-      <header className="sticky top-0 z-20 border-b border-line bg-sand">
+      <header className="sticky top-0 z-20 border-b border-line bg-surface/60 backdrop-blur-md">
         <div className="flex h-14 items-center justify-between px-4 sm:px-6">
           <div className="flex items-center gap-2">
             <button
@@ -72,7 +72,7 @@ export const AppLayout = ({ children }: { children: ReactNode }) => {
 
       <div className="flex flex-1">
         <aside
-          className={`hidden shrink-0 border-r border-line bg-canvas lg:block ${collapsed ? 'w-20' : 'w-64'}`}
+          className={`hidden shrink-0 border-r border-line bg-surface/40 lg:block ${collapsed ? 'w-20' : 'w-64'}`}
         >
           <div className="sticky top-14 flex max-h-[calc(100dvh-3.5rem)] flex-col gap-2 overflow-y-auto p-4">
             <button

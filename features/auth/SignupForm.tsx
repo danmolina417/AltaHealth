@@ -35,6 +35,7 @@ export const SignupForm = () => {
         label="Email"
         type="email"
         autoComplete="email"
+        placeholder="you@example.com"
         error={errors.email?.message}
         {...register('email')}
       />

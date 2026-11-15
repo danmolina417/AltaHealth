@@ -17,7 +17,7 @@ export const AppointmentsPage = () => {
 
       <NextSteps steps={steps} />
 
-      <aside className="rounded-card bg-gradient-to-r from-sand to-canvas p-8 sm:p-10">
+      <aside className="card card-coral p-8 sm:p-10">
         <div className="sm:ml-auto sm:max-w-sm">
           <p className="font-serif text-2xl">{closing.title}</p>
           <p className="mt-2 text-ink-muted">{closing.message}</p>

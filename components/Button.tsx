@@ -8,11 +8,13 @@ interface ButtonProps extends ComponentProps<'button'> {
 }
 
 const base =
-  'inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-4 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600 disabled:cursor-not-allowed disabled:opacity-60';
+  'inline-flex min-h-12 items-center justify-center gap-2 px-4 text-base font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-tan disabled:cursor-not-allowed disabled:opacity-60';
 
 const variants: Record<ButtonVariant, string> = {
-  primary: 'bg-brand-700 text-white hover:bg-brand-900',
-  secondary: 'border border-line bg-surface text-ink hover:bg-canvas',
+  primary:
+    'rounded-full bg-accent-tan text-white shadow-[0_8px_20px_rgb(207_110_83/0.28)] hover:bg-accent-bronze',
+  secondary:
+    'rounded-[14px] border border-alta-plum/15 bg-surface text-[15px] font-medium text-alta-plum hover:bg-alta-cream',
 };
 
 export const Button = ({

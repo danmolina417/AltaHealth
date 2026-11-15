@@ -15,7 +15,7 @@ export const PillarOverviewCard = ({ pillar, trend }: PillarOverviewCardProps) =
   const styles = accentStyles[accent];
 
   return (
-    <article className="flex flex-col gap-4 rounded-card border border-line bg-canvas p-5 shadow-card">
+    <article className={`flex flex-col gap-4 ${styles.card} p-5`}>
       <h3 className="font-serif text-lg">
         <Link
           href={to}
