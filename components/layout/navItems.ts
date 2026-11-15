@@ -8,7 +8,6 @@ import {
   Leaf,
   Pill,
   ShieldCheck,
-  Sparkle,
   Stethoscope,
   Tooth,
   User,
@@ -28,8 +27,7 @@ export interface NavItem {
 }
 
 export const primaryNav: NavItem[] = [
-  { id: 'insights', label: 'Wellness Insights', icon: Sparkle, to: paths.home, end: true },
-  { id: 'my-health', label: 'My Health', icon: Heart, to: paths.myHealth },
+  { id: 'my-health', label: 'My Health', icon: Heart, to: paths.home, end: true },
   { id: 'skin', label: 'Skin & Aesthetics', icon: User, to: paths.skin },
   { id: 'dental', label: 'Dental', icon: Tooth, to: paths.dental },
   { id: 'medical', label: 'Medical', icon: Stethoscope, to: paths.medical },

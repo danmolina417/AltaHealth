@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { useAuth } from '@/features/auth/useAuth';
-import icon from '@/assets/alta-icon.png';
+import logo from '@/assets/alta-logo.png';
 import { paths } from '@/lib/paths';
 import { Button } from '@/components/Button';
 import { UserAvatar } from '@/components/UserAvatar';
@@ -51,12 +51,14 @@ export const AppLayout = ({ children }: { children: ReactNode }) => {
             >
               <List size={24} aria-hidden="true" />
             </button>
-            <Link
-              href={paths.home}
-              className="flex items-center gap-2 text-lg font-bold text-brand-700"
-            >
-              <Image src={icon} alt="" width={32} height={32} className="size-8 rounded-lg" />
-              Alta Health
+            <Link href={paths.home} className="flex items-center">
+              <Image
+                src={logo}
+                alt="Alta Health"
+                width={512}
+                height={246}
+                className="h-12 w-auto"
+              />
             </Link>
           </div>
           <div className="flex items-center gap-3">

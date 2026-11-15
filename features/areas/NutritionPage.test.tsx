@@ -17,7 +17,7 @@ const loginAndOpenNutrition = async () => {
 const openTab = (name: string) => userEvent.click(screen.getByRole('tab', { name }));
 
 describe('nutrition page', () => {
-  it('opens from the landing card on the Overview tab with the score', async () => {
+  it('opens from the My Health pillar card on the Overview tab with the score', async () => {
     await loginAndOpenNutrition();
 
     expect(screen.getByRole('tab', { name: 'Overview' })).toHaveAttribute('aria-selected', 'true');

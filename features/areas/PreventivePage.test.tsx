@@ -17,7 +17,7 @@ const loginAndOpenPreventive = async () => {
 };
 
 describe('preventive and longevity page', () => {
-  it('opens from the landing card with the score and lists its metrics', async () => {
+  it('opens from the My Health pillar card with the score and lists its metrics', async () => {
     await loginAndOpenPreventive();
 
     expect(

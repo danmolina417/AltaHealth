@@ -8,14 +8,16 @@ const loginAndOpenMedical = async () => {
   await userEvent.type(screen.getByLabelText('Email'), 'jane@example.com');
   await userEvent.type(screen.getByLabelText('Password'), 'anything');
   await userEvent.click(screen.getByRole('button', { name: 'Log in' }));
-  await userEvent.click(await screen.findByRole('link', { name: 'Medical Health' }));
+  await userEvent.click(
+    within(await screen.findByRole('tabpanel')).getByRole('link', { name: 'Medical Health' }),
+  );
   await screen.findByRole('heading', { level: 1, name: 'Medical Health' });
 };
 
 const openTab = (name: string) => userEvent.click(screen.getByRole('tab', { name }));
 
 describe('medical health page', () => {
-  it('opens from the landing card on the Overview tab with the score', async () => {
+  it('opens from the My Health pillar card on the Overview tab with the score', async () => {
     await loginAndOpenMedical();
 
     expect(screen.getByRole('tab', { name: 'Overview' })).toHaveAttribute('aria-selected', 'true');

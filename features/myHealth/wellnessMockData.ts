@@ -60,13 +60,4 @@ export const mockSnapshot: WellnessSnapshot = {
       to: paths.preventive,
     },
   ],
-  trend: [
-    { label: 'May', score: 74 },
-    { label: 'Jun', score: 76 },
-    { label: 'Jul', score: 77 },
-    { label: 'Aug', score: 78 },
-    { label: 'Sep', score: 80 },
-    { label: 'Oct', score: 82 },
-  ],
-  nextStep: 'Consider booking your dental cleaning and updating your nutrition check-in.',
 };

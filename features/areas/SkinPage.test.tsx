@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { renderApp } from '@/test/renderApp';
 
@@ -8,11 +8,13 @@ const loginAndOpenSkin = async () => {
   await userEvent.type(screen.getByLabelText('Email'), 'jane@example.com');
   await userEvent.type(screen.getByLabelText('Password'), 'anything');
   await userEvent.click(screen.getByRole('button', { name: 'Log in' }));
-  await userEvent.click(await screen.findByRole('link', { name: 'Skin Health' }));
+  await userEvent.click(
+    within(await screen.findByRole('tabpanel')).getByRole('link', { name: 'Skin Health' }),
+  );
 };
 
 describe('skin detail page', () => {
-  it('opens from the landing page card and shows the skin metrics', async () => {
+  it('opens from the My Health pillar card and shows the skin metrics', async () => {
     await loginAndOpenSkin();
 
     expect(await screen.findByRole('heading', { name: 'Skin & Aesthetics' })).toBeInTheDocument();
@@ -36,13 +38,13 @@ describe('skin detail page', () => {
     );
   });
 
-  it('returns to the landing page from the header', async () => {
+  it('returns to My Health from the header', async () => {
     await loginAndOpenSkin();
 
     await userEvent.click(await screen.findByRole('link', { name: 'Alta Health' }));
 
     expect(
-      await screen.findByRole('heading', { name: /^Good (morning|afternoon|evening)$/ }),
+      await screen.findByRole('heading', { level: 1, name: 'Your Wellness Snapshot' }),
     ).toBeInTheDocument();
   });
 });
