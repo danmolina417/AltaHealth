@@ -3,9 +3,10 @@
 import { CaretLeft, CaretRight, List, X } from '@phosphor-icons/react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
-import { useAuth } from '@/features/auth/useAuth';
 import logo from '@/assets/alta-logo.png';
+import { authClient } from '@/lib/authClient';
 import { paths } from '@/lib/paths';
 import { Button } from '@/components/Button';
 import { UserAvatar } from '@/components/UserAvatar';
@@ -14,12 +15,24 @@ import { MainNav } from './MainNav';
 const iconButton =
   'inline-flex size-11 items-center justify-center rounded-xl text-ink hover:bg-canvas focus-visible:outline-2 focus-visible:outline-brand-600';
 
-export const AppLayout = ({ children }: { children: ReactNode }) => {
-  const { user, logout } = useAuth();
+interface AppLayoutProps {
+  /** The signed-in user, from `requireUser()` in the (app) layout. */
+  user: { name: string; email: string };
+  children: ReactNode;
+}
+
+export const AppLayout = ({ user, children }: AppLayoutProps) => {
+  const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const openButton = useRef<HTMLButtonElement>(null);
   const closeButton = useRef<HTMLButtonElement>(null);
+
+  const logout = async () => {
+    await authClient.signOut();
+    router.replace(paths.login);
+    router.refresh();
+  };
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -65,7 +78,7 @@ export const AppLayout = ({ children }: { children: ReactNode }) => {
             <Button variant="secondary" onClick={logout}>
               Log out
             </Button>
-            {user && <UserAvatar label={`Signed in as ${user.name ?? user.email}`} />}
+            <UserAvatar label={`Signed in as ${user.name || user.email}`} />
           </div>
         </div>
       </header>

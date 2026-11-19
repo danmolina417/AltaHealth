@@ -5,22 +5,30 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/Button';
 import { TextField } from '@/components/TextField';
+import { authClient } from '@/lib/authClient';
 import { paths } from '@/lib/paths';
+import { signupErrorMessage } from './authErrors';
+import { FormError } from './FormError';
 import { signupSchema, type SignupValues } from './schemas';
-import { useAuth } from './useAuth';
 
 export const SignupForm = () => {
-  const { login } = useAuth();
   const router = useRouter();
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    setError,
+    formState: { errors, isSubmitting },
   } = useForm<SignupValues>({ resolver: zodResolver(signupSchema) });
 
-  const onSubmit = ({ name, email }: SignupValues) => {
-    login({ name, email });
+  // Better Auth signs the new user in, so a successful sign-up lands on home.
+  const onSubmit = async ({ name, email, password }: SignupValues) => {
+    const { error } = await authClient.signUp.email({ name, email, password });
+    if (error) {
+      setError('root', { message: signupErrorMessage(error) });
+      return;
+    }
     router.replace(paths.home);
+    router.refresh();
   };
 
   return (
@@ -46,7 +54,8 @@ export const SignupForm = () => {
         error={errors.password?.message}
         {...register('password')}
       />
-      <Button type="submit" fullWidth>
+      <FormError message={errors.root?.message} />
+      <Button type="submit" fullWidth disabled={isSubmitting}>
         Create account
       </Button>
     </form>

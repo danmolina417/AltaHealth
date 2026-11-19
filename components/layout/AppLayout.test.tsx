@@ -3,10 +3,10 @@ import userEvent from '@testing-library/user-event';
 import { renderApp } from '@/test/renderApp';
 
 const loginToHome = async () => {
-  renderApp('/login');
+  await renderApp('/login');
 
   await userEvent.type(screen.getByLabelText('Email'), 'jane@example.com');
-  await userEvent.type(screen.getByLabelText('Password'), 'anything');
+  await userEvent.type(screen.getByLabelText('Password'), 'password123');
   await userEvent.click(screen.getByRole('button', { name: 'Log in' }));
   await screen.findByRole('heading', { level: 1, name: 'Your Wellness Snapshot' });
 };
@@ -90,7 +90,7 @@ describe('main navigation', () => {
   it('shows the signed-in user avatar in the header', async () => {
     await loginToHome();
 
-    expect(screen.getByRole('img', { name: 'Signed in as jane@example.com' })).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: 'Signed in as Jane' })).toBeInTheDocument();
   });
 
   it('opens and closes the menu on small screens', async () => {
