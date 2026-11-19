@@ -69,7 +69,7 @@ npm run dev
 
 ## Authentication
 
-Email/password accounts use self-hosted [Better Auth](https://www.better-auth.com), with users and sessions stored in Postgres. `lib/auth.ts` is the server config, `lib/authClient.ts` the browser client, and `app/api/auth/[...all]/route.ts` serves the endpoints.
+Email/password accounts use self-hosted [Better Auth](https://www.better-auth.com), with users and sessions stored in Postgres (the `auth` schema, see Database). `lib/auth.ts` is the server config, `lib/authClient.ts` the browser client, and `app/api/auth/[...all]/route.ts` serves the endpoints.
 
 Every route needs a signed-in user except a short public allowlist: `/login`, `/signup`, `/api/auth/*` and `/api/health`. There are three layers:
 
@@ -77,7 +77,7 @@ Every route needs a signed-in user except a short public allowlist: `/login`, `/
 2. `app/(app)/layout.tsx` calls `requireUser()` (`features/auth/session.ts`), which validates the session against the database.
 3. Every Server Action, route handler and data fetcher must call `requireUser()` / `getSession()` itself. Don't rely on the proxy or layouts: layouts don't re-run on client-side navigation.
 
-Sign-in and sign-up are rate limited per client IP (5 per minute), with counters stored in the `rateLimit` table.
+Sign-in and sign-up are rate limited per client IP (5 per minute), with counters stored in `auth.rate_limits`.
 
 ## Database
 
@@ -92,7 +92,16 @@ Sign-in and sign-up are rate limited per client IP (5 per minute), with counters
 
 The scripts read `DATABASE_URL_UNPOOLED` from `.env.local`, because dbmate shouldn't go through Neon's connection pooler.
 
-- **Better Auth schema changes** (upgrades, new plugins): run `npx auth@latest generate` against an up-to-date database to get the SQL diff, then paste it into a new `db:new` migration. Never run `npx auth migrate`, which changes the database outside dbmate's history.
+### Conventions
+
+- Table and column names are snake_case, table names are plural, and primary keys are `uuid` (`gen_random_uuid()`).
+- Better Auth's tables live in the `auth` schema: `users`, `sessions`, `accounts`, `verifications` and `rate_limits`. Its defaults are camelCase and singular, so `lib/auth.ts` maps every table and column (`modelName` / `fields`). Better Auth's `casing` option isn't implemented in 1.7.
+- App tables live in `public` and reference `auth.users (id)`. Keep app data, especially health data, out of Better Auth's tables: fields added there are returned in session responses by default. A `public.profiles` table (created by a trigger on `auth.users`, with a backfill) arrives with the first app-owned user field.
+
+### Changing the schema
+
+- **Better Auth schema changes** (upgrades, new plugins): first add `modelName` / `fields` mappings in `lib/auth.ts` for any new tables and columns. Then run `npx auth@latest generate --config lib/auth.ts` against an up-to-date database to get the SQL diff, and paste it into a new `db:new` migration. Never run `npx auth migrate`, which changes the database outside dbmate's history.
+- **A migration that hasn't reached production** is edited in place rather than fixed by a second migration. Roll it back on `dev` with the old file before rewriting it.
 - **Production** is migrated by hand, not during the Vercel build: `npx dbmate --url "<production unpooled URL>" up`. Preview branches created afterwards inherit the tables and `schema_migrations` from production.
 
 ## Testing

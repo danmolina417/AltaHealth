@@ -1,27 +1,72 @@
 -- migrate:up
--- Better Auth 1.7 core schema (email/password) plus database-backed rate limiting.
--- Generated with `npx auth generate` against an empty database; see README "Database".
+-- Better Auth 1.7 tables (email/password + database-backed rate limiting) in their
+-- own `auth` schema, with plural snake_case names mapped in lib/auth.ts.
+-- Generated with `npx auth generate --config lib/auth.ts`; see README "Database".
 
-create table "user" ("id" text not null primary key, "name" text not null, "email" text not null unique, "emailVerified" boolean not null, "image" text, "createdAt" timestamptz default CURRENT_TIMESTAMP not null, "updatedAt" timestamptz default CURRENT_TIMESTAMP not null);
+create schema auth;
 
-create table "session" ("id" text not null primary key, "expiresAt" timestamptz not null, "token" text not null unique, "createdAt" timestamptz default CURRENT_TIMESTAMP not null, "updatedAt" timestamptz not null, "ipAddress" text, "userAgent" text, "userId" text not null references "user" ("id") on delete cascade);
+create table auth.users (
+  id uuid default pg_catalog.gen_random_uuid() not null primary key,
+  name text not null,
+  email text not null unique,
+  email_verified boolean not null,
+  image text,
+  created_at timestamptz default current_timestamp not null,
+  updated_at timestamptz default current_timestamp not null
+);
 
-create table "account" ("id" text not null primary key, "accountId" text not null, "providerId" text not null, "userId" text not null references "user" ("id") on delete cascade, "accessToken" text, "refreshToken" text, "idToken" text, "accessTokenExpiresAt" timestamptz, "refreshTokenExpiresAt" timestamptz, "scope" text, "password" text, "createdAt" timestamptz default CURRENT_TIMESTAMP not null, "updatedAt" timestamptz not null);
+create table auth.sessions (
+  id uuid default pg_catalog.gen_random_uuid() not null primary key,
+  expires_at timestamptz not null,
+  token text not null unique,
+  created_at timestamptz default current_timestamp not null,
+  updated_at timestamptz not null,
+  ip_address text,
+  user_agent text,
+  user_id uuid not null references auth.users (id) on delete cascade
+);
 
-create table "verification" ("id" text not null primary key, "identifier" text not null, "value" text not null, "expiresAt" timestamptz not null, "createdAt" timestamptz default CURRENT_TIMESTAMP not null, "updatedAt" timestamptz default CURRENT_TIMESTAMP not null);
+create table auth.accounts (
+  id uuid default pg_catalog.gen_random_uuid() not null primary key,
+  account_id text not null,
+  provider_id text not null,
+  user_id uuid not null references auth.users (id) on delete cascade,
+  access_token text,
+  refresh_token text,
+  id_token text,
+  access_token_expires_at timestamptz,
+  refresh_token_expires_at timestamptz,
+  scope text,
+  password text,
+  created_at timestamptz default current_timestamp not null,
+  updated_at timestamptz not null
+);
 
-create table "rateLimit" ("id" text not null primary key, "key" text not null unique, "count" integer not null, "lastRequest" bigint not null);
+create table auth.verifications (
+  id uuid default pg_catalog.gen_random_uuid() not null primary key,
+  identifier text not null,
+  value text not null,
+  expires_at timestamptz not null,
+  created_at timestamptz default current_timestamp not null,
+  updated_at timestamptz default current_timestamp not null
+);
 
-create index "session_userId_idx" on "session" ("userId");
+create table auth.rate_limits (
+  id uuid default pg_catalog.gen_random_uuid() not null primary key,
+  key text not null unique,
+  count integer not null,
+  last_request bigint not null
+);
 
-create index "account_userId_idx" on "account" ("userId");
-
-create index "verification_identifier_idx" on "verification" ("identifier");
+create index sessions_user_id_idx on auth.sessions (user_id);
+create index accounts_user_id_idx on auth.accounts (user_id);
+create index verifications_identifier_idx on auth.verifications (identifier);
 
 -- migrate:down
 
-drop table "rateLimit";
-drop table "verification";
-drop table "account";
-drop table "session";
-drop table "user";
+drop table auth.rate_limits;
+drop table auth.verifications;
+drop table auth.accounts;
+drop table auth.sessions;
+drop table auth.users;
+drop schema auth;
