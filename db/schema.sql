@@ -1,6 +1,6 @@
 \restrict dbmate
 
--- Dumped from database version 17.11
+-- Dumped from database version 18.6
 -- Dumped by pg_dump version 18.6
 
 SET statement_timeout = 0;
@@ -20,6 +20,24 @@ SET row_security = off;
 --
 
 CREATE SCHEMA auth;
+
+
+--
+-- Name: app_user_id(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.app_user_id() RETURNS uuid
+    LANGUAGE plpgsql STABLE
+    AS $$
+declare
+  user_id text := nullif(current_setting('app.user_id', true), '');
+begin
+  if user_id is null then
+    raise exception 'app.user_id is not set: query user data through withUser()';
+  end if;
+  return user_id::uuid;
+end
+$$;
 
 
 SET default_tablespace = '';
@@ -234,4 +252,5 @@ ALTER TABLE ONLY auth.sessions
 --
 
 INSERT INTO public.schema_migrations (version) VALUES
-    ('20261119141129');
+    ('20261119141129'),
+    ('20261120124458');
