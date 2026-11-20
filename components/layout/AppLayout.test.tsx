@@ -1,6 +1,10 @@
-import { screen, within } from '@testing-library/react';
+import { act, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { paths } from '@/lib/paths';
+import { fakeAuthClient } from '@/test/fakeAuth';
+import { memoryRouter } from '@/test/memoryRouter';
 import { renderApp } from '@/test/renderApp';
+import { AppLayout } from './AppLayout';
 
 const loginToHome = async () => {
   await renderApp('/login');
@@ -117,5 +121,43 @@ describe('main navigation', () => {
 
     expect(await screen.findByRole('heading', { level: 1, name: 'Medical Health' })).toBeVisible();
     expect(screen.getAllByRole('navigation', { name: 'Main' })).toHaveLength(1);
+  });
+});
+
+// Rendered on its own, the layout stays mounted after logging out navigates away, as it does in
+// the real app while the login page loads.
+describe('logout button', () => {
+  const user = { name: 'Jane', email: 'jane@example.com' };
+
+  afterEach(() => vi.restoreAllMocks());
+
+  it('is disabled while logging out and stays disabled while the login page loads', async () => {
+    const response = Promise.withResolvers<void>();
+    const signOut = fakeAuthClient.signOut;
+    vi.spyOn(fakeAuthClient, 'signOut').mockImplementation(async () => {
+      await response.promise;
+      return signOut();
+    });
+    render(<AppLayout user={user}>Page</AppLayout>);
+    const button = screen.getByRole('button', { name: 'Log out' });
+
+    await userEvent.click(button);
+    expect(button).toBeDisabled();
+
+    response.resolve();
+    await waitFor(() => expect(memoryRouter.getPathname()).toBe(paths.login));
+    await act(() => new Promise((resolve) => setTimeout(resolve)));
+    expect(button).toBeDisabled();
+  });
+
+  it('is enabled again when logging out fails', async () => {
+    vi.spyOn(fakeAuthClient, 'signOut').mockRejectedValue(new Error('offline'));
+    render(<AppLayout user={user}>Page</AppLayout>);
+    const button = screen.getByRole('button', { name: 'Log out' });
+
+    await userEvent.click(button);
+
+    await waitFor(() => expect(button).toBeEnabled());
+    expect(memoryRouter.getPathname()).toBe(paths.home);
   });
 });

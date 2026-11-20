@@ -28,8 +28,20 @@ export const AppLayout = ({ user, children }: AppLayoutProps) => {
   const openButton = useRef<HTMLButtonElement>(null);
   const closeButton = useRef<HTMLButtonElement>(null);
 
+  const [loggingOut, setLoggingOut] = useState(false);
+
+  // The button stays disabled after a successful logout until the login page replaces this one,
+  // and is enabled again only if signing out fails.
   const logout = async () => {
-    await authClient.signOut();
+    setLoggingOut(true);
+    const signedOut = await authClient.signOut().then(
+      ({ error }) => !error,
+      () => false,
+    );
+    if (!signedOut) {
+      setLoggingOut(false);
+      return;
+    }
     router.replace(paths.login);
     router.refresh();
   };
@@ -75,7 +87,7 @@ export const AppLayout = ({ user, children }: AppLayoutProps) => {
             </Link>
           </div>
           <div className="flex items-center gap-3">
-            <Button variant="secondary" onClick={logout}>
+            <Button variant="secondary" onClick={logout} disabled={loggingOut}>
               Log out
             </Button>
             <UserAvatar label={`Signed in as ${user.name || user.email}`} />

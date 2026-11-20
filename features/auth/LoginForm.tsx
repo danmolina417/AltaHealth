@@ -17,7 +17,7 @@ export const LoginForm = () => {
     register,
     handleSubmit,
     setError,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isSubmitSuccessful },
   } = useForm<LoginValues>({ resolver: zodResolver(loginSchema) });
 
   const onSubmit = async ({ email, password }: LoginValues) => {
@@ -48,7 +48,9 @@ export const LoginForm = () => {
         {...register('password')}
       />
       <FormError message={errors.root?.message} />
-      <Button type="submit" fullWidth disabled={isSubmitting}>
+      {/* After a successful login it stays disabled until the home page replaces this one;
+          setError makes the submit unsuccessful, so it's enabled again after an error. */}
+      <Button type="submit" fullWidth disabled={isSubmitting || isSubmitSuccessful}>
         Log in
       </Button>
     </form>

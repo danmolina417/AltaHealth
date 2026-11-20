@@ -17,7 +17,7 @@ export const SignupForm = () => {
     register,
     handleSubmit,
     setError,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isSubmitSuccessful },
   } = useForm<SignupValues>({ resolver: zodResolver(signupSchema) });
 
   // Better Auth signs the new user in, so a successful sign-up lands on home.
@@ -55,7 +55,8 @@ export const SignupForm = () => {
         {...register('password')}
       />
       <FormError message={errors.root?.message} />
-      <Button type="submit" fullWidth disabled={isSubmitting}>
+      {/* Stays disabled after a successful sign-up until the home page replaces this one. */}
+      <Button type="submit" fullWidth disabled={isSubmitting || isSubmitSuccessful}>
         Create account
       </Button>
     </form>
