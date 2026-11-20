@@ -6,7 +6,7 @@ const router = {
   replace: (href: string) => memoryRouter.navigate(href),
   back: () => undefined,
   forward: () => undefined,
-  refresh: () => undefined,
+  refresh: () => memoryRouter.refresh(),
   prefetch: () => undefined,
 };
 

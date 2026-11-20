@@ -5,22 +5,29 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/Button';
 import { TextField } from '@/components/TextField';
+import { authClient } from '@/lib/authClient';
 import { paths } from '@/lib/paths';
+import { loginErrorMessage } from './authErrors';
+import { FormError } from './FormError';
 import { loginSchema, type LoginValues } from './schemas';
-import { useAuth } from './useAuth';
 
 export const LoginForm = () => {
-  const { login } = useAuth();
   const router = useRouter();
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    setError,
+    formState: { errors, isSubmitting, isSubmitSuccessful },
   } = useForm<LoginValues>({ resolver: zodResolver(loginSchema) });
 
-  const onSubmit = ({ email }: LoginValues) => {
-    login({ email });
+  const onSubmit = async ({ email, password }: LoginValues) => {
+    const { error } = await authClient.signIn.email({ email, password });
+    if (error) {
+      setError('root', { message: loginErrorMessage(error) });
+      return;
+    }
     router.replace(paths.home);
+    router.refresh();
   };
 
   return (
@@ -40,7 +47,10 @@ export const LoginForm = () => {
         error={errors.password?.message}
         {...register('password')}
       />
-      <Button type="submit" fullWidth>
+      <FormError message={errors.root?.message} />
+      {/* After a successful login it stays disabled until the home page replaces this one;
+          setError makes the submit unsuccessful, so it's enabled again after an error. */}
+      <Button type="submit" fullWidth disabled={isSubmitting || isSubmitSuccessful}>
         Log in
       </Button>
     </form>

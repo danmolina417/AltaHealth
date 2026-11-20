@@ -3,10 +3,10 @@ import userEvent from '@testing-library/user-event';
 import { renderApp } from '@/test/renderApp';
 
 const loginAndOpenDental = async () => {
-  renderApp('/login');
+  await renderApp('/login');
 
   await userEvent.type(screen.getByLabelText('Email'), 'jane@example.com');
-  await userEvent.type(screen.getByLabelText('Password'), 'anything');
+  await userEvent.type(screen.getByLabelText('Password'), 'password123');
   await userEvent.click(screen.getByRole('button', { name: 'Log in' }));
   await userEvent.click(
     within(await screen.findByRole('tabpanel')).getByRole('link', { name: 'Dental Health' }),

@@ -1,12 +1,16 @@
-import { screen, within } from '@testing-library/react';
+import { act, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { paths } from '@/lib/paths';
+import { fakeAuthClient } from '@/test/fakeAuth';
+import { memoryRouter } from '@/test/memoryRouter';
 import { renderApp } from '@/test/renderApp';
+import { AppLayout } from './AppLayout';
 
 const loginToHome = async () => {
-  renderApp('/login');
+  await renderApp('/login');
 
   await userEvent.type(screen.getByLabelText('Email'), 'jane@example.com');
-  await userEvent.type(screen.getByLabelText('Password'), 'anything');
+  await userEvent.type(screen.getByLabelText('Password'), 'password123');
   await userEvent.click(screen.getByRole('button', { name: 'Log in' }));
   await screen.findByRole('heading', { level: 1, name: 'Your Wellness Snapshot' });
 };
@@ -90,7 +94,7 @@ describe('main navigation', () => {
   it('shows the signed-in user avatar in the header', async () => {
     await loginToHome();
 
-    expect(screen.getByRole('img', { name: 'Signed in as jane@example.com' })).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: 'Signed in as Jane' })).toBeInTheDocument();
   });
 
   it('opens and closes the menu on small screens', async () => {
@@ -117,5 +121,43 @@ describe('main navigation', () => {
 
     expect(await screen.findByRole('heading', { level: 1, name: 'Medical Health' })).toBeVisible();
     expect(screen.getAllByRole('navigation', { name: 'Main' })).toHaveLength(1);
+  });
+});
+
+// Rendered on its own, the layout stays mounted after logging out navigates away, as it does in
+// the real app while the login page loads.
+describe('logout button', () => {
+  const user = { name: 'Jane', email: 'jane@example.com' };
+
+  afterEach(() => vi.restoreAllMocks());
+
+  it('is disabled while logging out and stays disabled while the login page loads', async () => {
+    const response = Promise.withResolvers<void>();
+    const signOut = fakeAuthClient.signOut;
+    vi.spyOn(fakeAuthClient, 'signOut').mockImplementation(async () => {
+      await response.promise;
+      return signOut();
+    });
+    render(<AppLayout user={user}>Page</AppLayout>);
+    const button = screen.getByRole('button', { name: 'Log out' });
+
+    await userEvent.click(button);
+    expect(button).toBeDisabled();
+
+    response.resolve();
+    await waitFor(() => expect(memoryRouter.getPathname()).toBe(paths.login));
+    await act(() => new Promise((resolve) => setTimeout(resolve)));
+    expect(button).toBeDisabled();
+  });
+
+  it('is enabled again when logging out fails', async () => {
+    vi.spyOn(fakeAuthClient, 'signOut').mockRejectedValue(new Error('offline'));
+    render(<AppLayout user={user}>Page</AppLayout>);
+    const button = screen.getByRole('button', { name: 'Log out' });
+
+    await userEvent.click(button);
+
+    await waitFor(() => expect(button).toBeEnabled());
+    expect(memoryRouter.getPathname()).toBe(paths.home);
   });
 });

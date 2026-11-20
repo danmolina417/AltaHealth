@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter, Source_Serif_4 } from 'next/font/google';
 import type { ReactNode } from 'react';
-import { AuthProvider } from '@/features/auth/AuthProvider';
 import './globals.css';
 
 const serif = Source_Serif_4({
@@ -22,9 +21,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${serif.variable} ${inter.variable}`}>
-      <body>
-        <AuthProvider>{children}</AuthProvider>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
