@@ -1,7 +1,7 @@
 import react from '@vitejs/plugin-react';
 import { fileURLToPath } from 'node:url';
 import type { Plugin } from 'vite';
-import { defineConfig } from 'vitest/config';
+import { configDefaults, defineConfig } from 'vitest/config';
 
 /**
  * Next.js turns `import hero from './hero.webp'` into `{ src, width, height }`, which
@@ -26,6 +26,8 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: ['./test/setup.ts'],
+    // Database tests need Docker and run with `npm run test:db` (vitest.db.config.ts).
+    exclude: [...configDefaults.exclude, 'db/**'],
     css: false,
   },
 });
