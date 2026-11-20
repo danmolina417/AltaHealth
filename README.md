@@ -102,7 +102,8 @@ The scripts read `DATABASE_URL_UNPOOLED` from `.env.local`, because dbmate shoul
 
 - **Better Auth schema changes** (upgrades, new plugins): first add `modelName` / `fields` mappings in `lib/auth.ts` for any new tables and columns. Then run `npx auth@latest generate --config lib/auth.ts` against an up-to-date database to get the SQL diff, and paste it into a new `db:new` migration. Never run `npx auth migrate`, which changes the database outside dbmate's history.
 - **A migration that hasn't reached production** is edited in place rather than fixed by a second migration. Roll it back on `dev` with the old file before rewriting it.
-- **Production** is migrated by hand, not during the Vercel build: `npx dbmate --url "<production unpooled URL>" up`. Preview branches created afterwards inherit the tables and `schema_migrations` from production.
+- **Production** is migrated by hand, not during the Vercel build: `npx dbmate --url "<production unpooled URL>" --no-dump-schema up` (so `db/schema.sql` isn't rewritten from production). Preview branches created afterwards inherit the tables and `schema_migrations` from production; reset older ones from their parent in Neon.
+- **Migrate before deploying.** Better Auth checks its tables once per server instance and keeps a failed result, so a deployment that served requests before its migration ran keeps failing after it: redeploy it.
 
 ## Testing
 
