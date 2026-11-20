@@ -1,11 +1,9 @@
 import type { ReactNode } from 'react';
 import { AppLayout } from '@/components/layout/AppLayout';
-import { RequireAuth } from '@/features/auth/RequireAuth';
+import { requireUser } from '@/features/auth/session';
 
-export default function SignedInLayout({ children }: { children: ReactNode }) {
-  return (
-    <RequireAuth>
-      <AppLayout>{children}</AppLayout>
-    </RequireAuth>
-  );
+export default async function SignedInLayout({ children }: { children: ReactNode }) {
+  const user = await requireUser();
+
+  return <AppLayout user={user}>{children}</AppLayout>;
 }
