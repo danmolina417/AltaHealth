@@ -19,9 +19,9 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "db:new": "dbmate --env-file .env.owner --env DATABASE_OWNER_URL new",
-    "db:up": "dbmate --env-file .env.owner --env DATABASE_OWNER_URL up",
+    "db:up": "dbmate --env-file .env.owner --env DATABASE_OWNER_URL --no-dump-schema up",
     "db:status": "dbmate --env-file .env.owner --env DATABASE_OWNER_URL status",
-    "db:rollback": "dbmate --env-file .env.owner --env DATABASE_OWNER_URL rollback"
+    "db:rollback": "dbmate --env-file .env.owner --env DATABASE_OWNER_URL --no-dump-schema rollback"
   },
   "dependencies": {
     "@hookform/resolvers": "^7.0.3",

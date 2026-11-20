@@ -14,7 +14,7 @@ app/          Routes only (App Router)
 components/   Shared UI (charts, buttons, nav, app shell)
 features/     Feature code: auth, myHealth, appointments, areas
 lib/          Route paths, auth/db setup, accent styles, health status
-db/           dbmate migrations and the generated schema.sql
+db/           dbmate migrations, database tests and db/set-app-url.sh
 assets/       Images imported by components
 test/         Vitest setup, the in-memory router and auth fake used by tests
 design/       Design references (not shipped)
@@ -83,7 +83,7 @@ Sign-in and sign-up are rate limited per client IP (5 per minute), with counters
 
 ## Database
 
-[dbmate](https://github.com/amacneil/dbmate) owns the schema. Migrations live in `db/migrations`, and `db/schema.sql` is regenerated on every migrate or rollback (it needs `pg_dump`) and committed so schema changes show up in review.
+[dbmate](https://github.com/amacneil/dbmate) owns the schema, and the migrations in `db/migrations` are its only record. dbmate's schema dump (`db/schema.sql`) is turned off: nothing reads it, and dumps from Neon carry Neon-specific lines. For a full view of the schema, run `pg_dump --schema-only` against `dev`.
 
 | Script                     | Description                         |
 | -------------------------- | ----------------------------------- |
@@ -135,7 +135,7 @@ The app connects as `app` (`DATABASE_URL`), a role that owns nothing, can't chan
 
 - **Better Auth schema changes** (upgrades, new plugins): first add `modelName` / `fields` mappings in `lib/auth.ts` for any new tables and columns. Then run `npx auth@latest generate --config lib/auth.ts` against an up-to-date database to get the SQL diff, and paste it into a new `db:new` migration. Never run `npx auth migrate`, which changes the database outside dbmate's history.
 - **A migration that hasn't reached production** is edited in place rather than fixed by a second migration. Roll it back on `dev` with the old file before rewriting it.
-- **Production and `preview`** are migrated by hand, not during the Vercel build: `npx dbmate --url "<the branch's direct owner URL>" --no-dump-schema up` (so `db/schema.sql` isn't rewritten from them). Migrate `preview` together with `dev`. Resetting `preview` from `dev` works too, but rerun `db/set-app-url.sh preview` afterwards.
+- **Production and `preview`** are migrated by hand, not during the Vercel build: `npx dbmate --url "<the branch's direct owner URL>" --no-dump-schema up`. Migrate `preview` together with `dev`. Resetting `preview` from `dev` works too, but rerun `db/set-app-url.sh preview` afterwards.
 - **Migrate before deploying.** Better Auth checks its tables once per server instance and keeps a failed result, so a deployment that served requests before its migration ran keeps failing after it: redeploy it.
 
 ## Testing

@@ -16,3 +16,6 @@ next-env.d.ts
 !.vscode/extensions.json
 .vercel
 .env*
+
+# dbmate schema dumps are turned off (see README "Database")
+/db/schema.sql
